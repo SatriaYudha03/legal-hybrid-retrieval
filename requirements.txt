@@ -1,0 +1,27 @@
+# Core
+numpy>=1.24
+pandas>=2.0
+PyYAML>=6.0
+tqdm>=4.65
+
+# PDF extraction
+pdfplumber>=0.10      # ekstraksi teks PDF UU (lebih rapi untuk dokumen kolom/tabel)
+PyMuPDF>=1.23         # alternatif cepat (fitz) bila pdfplumber kurang akurat
+
+# Lexical retrieval
+rank-bm25>=0.2.2
+
+# Semantic retrieval (Transformer)
+sentence-transformers>=2.2
+transformers>=4.35
+torch>=2.0
+
+# Vector store
+faiss-cpu>=1.7.4
+
+# Evaluasi
+scikit-learn>=1.3
+pytrec-eval>=0.5
+
+# Tokenisasi / preprocessing Bahasa Indonesia (opsional)
+Sastrawi>=1.0.1       # stemming & stopword removal Bahasa Indonesia

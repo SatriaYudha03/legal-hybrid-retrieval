@@ -1,0 +1,57 @@
+# ============================================================
+# Konfigurasi Proyek: Hybrid Retrieval Dokumen Hukum Indonesia
+# BM25 + IndoSBERT + Reciprocal Rank Fusion (RRF)
+# ============================================================
+
+paths:
+  raw_dir: "data/raw"             # PDF UU mentah
+  processed_dir: "data/processed" # teks bersih + chunk JSON
+  index_dir: "data/index"         # index BM25 & FAISS
+  eval_dir: "data/eval"           # queries.json & qrels
+  results_dir: "results"          # output metrik & ranking
+  models_dir: "models"            # cache lokal model IndoSBERT (anti-gagal saat demo offline)
+
+# Pemetaan nama file PDF -> domain. Sesuaikan nama file Anda di data/raw/.
+documents:
+  - file: "UU Ketenagakerjaan.pdf"
+    domain: "ketenagakerjaan"
+  - file: "UU Perlindungan Konsumen.pdf"
+    domain: "konsumen"
+  - file: "UU Informasi dan Transaksi Elektronik.pdf"
+    domain: "ite"
+  - file: "UU Perlindungan Anak.pdf"
+    domain: "anak"
+
+chunking:
+  strategy: "pasal"     # "pasal" | "ayat" | "paragraf"
+  max_tokens: 256       # batas aman untuk IndoSBERT (model umumnya max 512, banyak truncate di 256)
+  overlap: 0            # overlap antar-chunk (token) bila pakai split panjang
+
+bm25:
+  tokenizer: "simple"   # "simple" | "sastrawi" (stemming + stopword removal)
+  k1: 1.5
+  b: 0.75
+
+embedding:
+  # Beberapa varian IndoSBERT yang umum dipakai — pilih salah satu:
+  #   firqaaa/indo-sentence-bert-base
+  #   denaya/indoSBERT-large
+  #   indobenchmark/indobert-base-p1  (bukan SBERT, perlu mean-pooling manual)
+  model_name: "firqaaa/indo-sentence-bert-base"
+  batch_size: 32
+  normalize: true       # normalisasi L2 -> cosine == dot product
+  device: "cpu"         # "cuda" bila ada GPU
+
+fusion:
+  k: 60                 # konstanta RRF (nilai standar dari paper Cormack et al.)
+  candidate_depth: 100  # kedalaman daftar tiap retriever yang difusikan SEBELUM dipotong top_k.
+                        # PENTING: jangan terlalu dangkal (mis. 10) — dokumen relevan yang hanya
+                        # ditemukan satu retriever akan tersingkir. 50-100 jauh lebih baik.
+
+retrieval:
+  top_k: 10             # jumlah dokumen final yang dikembalikan ke pengguna / dievaluasi
+
+evaluation:
+  metrics: ["recall@5", "recall@10", "mrr", "ndcg@10"]
+
+seed: 42

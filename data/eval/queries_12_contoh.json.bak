@@ -1,0 +1,17 @@
+[
+  { "id": "Q001", "domain": "ketenagakerjaan", "text": "hak pekerja yang dipecat" },
+  { "id": "Q002", "domain": "ketenagakerjaan", "text": "pesangon PHK" },
+  { "id": "Q003", "domain": "ketenagakerjaan", "text": "jam kerja maksimum" },
+
+  { "id": "Q004", "domain": "konsumen", "text": "barang rusak setelah dibeli" },
+  { "id": "Q005", "domain": "konsumen", "text": "hak pembeli online" },
+  { "id": "Q006", "domain": "konsumen", "text": "kompensasi produk cacat" },
+
+  { "id": "Q007", "domain": "ite", "text": "bukti elektronik di pengadilan" },
+  { "id": "Q008", "domain": "ite", "text": "transaksi elektronik yang sah" },
+  { "id": "Q009", "domain": "ite", "text": "pencemaran nama baik online" },
+
+  { "id": "Q010", "domain": "anak", "text": "hak anak memperoleh pendidikan" },
+  { "id": "Q011", "domain": "anak", "text": "perlindungan anak dari kekerasan" },
+  { "id": "Q012", "domain": "anak", "text": "kewajiban orang tua terhadap anak" }
+]

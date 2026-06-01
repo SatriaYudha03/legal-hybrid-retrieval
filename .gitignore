@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Data artifacts (jangan commit file besar / hasil olahan)
+data/processed/
+data/index/
+*.faiss
+*.pkl
+*.npy
+
+# Tetap commit PDF mentah & file evaluasi? -> atur sesuai kebutuhan.
+# Kalau PDF UU besar, pertimbangkan untuk meng-ignore juga:
+# data/raw/*.pdf
+
+# Model cache lokal (besar, jangan commit — kecuali README)
+models/*
+!models/README.md
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Hasil eksperimen
+results/
+*.log
