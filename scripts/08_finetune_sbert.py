@@ -16,6 +16,7 @@ Jalankan:
 from __future__ import annotations
 
 import json
+import math
 import os
 import sys
 from pathlib import Path
@@ -64,8 +65,12 @@ def main() -> None:
         SentenceTransformerTrainer,
         SentenceTransformerTrainingArguments,
     )
-    from sentence_transformers.losses import MultipleNegativesRankingLoss
-    from sentence_transformers.training_args import BatchSamplers
+    try:
+        from sentence_transformers.sentence_transformer.losses import MultipleNegativesRankingLoss
+        from sentence_transformers.sentence_transformer.training_args import BatchSamplers
+    except ImportError:
+        from sentence_transformers.losses import MultipleNegativesRankingLoss
+        from sentence_transformers.training_args import BatchSamplers
 
     # --- data latih ---
     rows = load_pairs(train_dir / tcfg["pairs_file"], num_neg)
@@ -83,12 +88,18 @@ def main() -> None:
 
     # --- loss & argumen ---
     loss = MultipleNegativesRankingLoss(model)
+
+    # warmup_ratio deprecated di Transformers v5+ → hitung warmup_steps manual
+    steps_per_epoch = math.ceil(len(rows) / int(tcfg["batch_size"]))
+    total_steps     = steps_per_epoch * int(tcfg["epochs"])
+    warmup_steps    = math.ceil(total_steps * float(tcfg["warmup_ratio"]))
+
     args = SentenceTransformerTrainingArguments(
         output_dir=str(out_dir),
         num_train_epochs=float(tcfg["epochs"]),
         per_device_train_batch_size=int(tcfg["batch_size"]),
         learning_rate=float(tcfg["learning_rate"]),
-        warmup_ratio=float(tcfg["warmup_ratio"]),
+        warmup_steps=warmup_steps,
         weight_decay=float(tcfg["weight_decay"]),
         fp16=False, bf16=False,                       # CPU
         batch_sampler=BatchSamplers.NO_DUPLICATES,    # cegah duplikat in-batch (false negative)

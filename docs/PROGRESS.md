@@ -10,8 +10,8 @@ Terakhir diperbarui: 2026-06-03
 Fase 0  [✅ SELESAI] Kunci Baseline
 Fase 1  [✅ SELESAI] Query Normalization
 Fase 2  [✅ SELESAI] Data Latih Sintetis
-Fase 3  [⬜ BELUM  ] Fine-Tuning MNRL (kompute: CPU lokal)
-Fase 4  [⬜ BELUM  ] Evaluasi Ablasi + Wilcoxon
+Fase 3  [✅ SELESAI] Fine-Tuning MNRL (Google Colab GPU, 3 epoch)
+Fase 4  [✅ SELESAI] Evaluasi Ablasi + Wilcoxon
 Fase 5  [⬜ BELUM  ] Integrasi & Presentasi
 ```
 
@@ -123,40 +123,58 @@ terhadap sisa noise. Trade-off ini adalah konsekuensi sah dari keputusan "tanpa 
 
 ---
 
-## Fase 3 — Fine-Tuning MNRL ⬜
+## Fase 3 — Fine-Tuning MNRL ✅
 
 **Tujuan:** geser embedding IndoSBERT agar query awam makin dekat ke pasal relevan.
 Perbaikan atas paper: pakai `MultipleNegativesRankingLoss` + hard negative,
 bukan `CosineSimilarityLoss` tanpa negatif.
 
-**Keputusan:** **CPU lokal** (tak ada GPU; dataset kecil 521 pasangan, model base 768-dim,
-MNRL 1–3 epoch masih wajar di CPU). Semua reproducible lokal tanpa setup eksternal.
+**Keputusan akhir:** **Google Colab GPU** (T4, batch=8, grad_accum=4, fp16, 3 epoch).
+Model disimpan ke `models/indosbert-legal-ft/` dan index FT ke `data/index/faiss_ft`.
 
-- [ ] Buat `scripts/08_finetune_sbert.py`
-  - Base model: `firqaaa/indo-sentence-bert-base`
-  - Loss: `MultipleNegativesRankingLoss` (in-batch + 4 hard negative/pasangan)
-  - Hyperparam: lr 2e-5, 1–3 epoch, warmup 10%, weight decay 0.01, batch sesuai memori
-- [ ] Simpan model ke `models/indosbert-legal-ft/`
-- [ ] Encode ulang 378 chunk → rebuild FAISS index dengan model baru
+- [x] Buat `scripts/08_finetune_sbert.py` (fallback CPU lokal)
+- [x] Buat `notebooks/06_finetune_colab.ipynb` (siap-pakai di Google Colab GPU)
+- [x] Fine-tune di Colab: base `firqaaa/indo-sentence-bert-base`, MNRL + 4 hard-neg, lr 2e-5, 3 epoch
+- [x] Simpan model ke `models/indosbert-legal-ft/` (unduh dari Colab)
+- [x] Rebuild FAISS index FT via `scripts/08b_rebuild_index_ft.py` → `data/index/faiss_ft`
 
 ---
 
-## Fase 4 — Evaluasi Ablasi + Signifikansi ⬜
+## Fase 4 — Evaluasi Ablasi + Signifikansi ✅
 
 **Tujuan:** ukur kontribusi tiap komponen secara terpisah + buktikan signifikansi statistik.
 
-- [ ] Buat `scripts/09_evaluate_ablation.py` — matriks 5 sistem × 2 kondisi normalisasi:
+- [x] Buat `scripts/09_evaluate_ablation.py` — matriks 5 sistem × 2 kondisi normalisasi:
 
   | Sistem | Tanpa norm | Dengan norm |
   |---|:---:|:---:|
-  | BM25 | ⬜ | ⬜ |
-  | IndoSBERT pretrained | ⬜ | ⬜ |
-  | IndoSBERT fine-tuned | ⬜ | ⬜ |
-  | Pre-hybrid (BM25+pretrained) | ⬜ | ⬜ |
-  | Fine-hybrid (BM25+FT) | ⬜ | ⬜ |
+  | Sistem | Tanpa norm | Dengan norm |
+  |---|---|---|
+  | BM25 | R@5=0.5417 NDCG=0.4947 | R@5=0.6025 NDCG=0.5778 |
+  | IndoSBERT pretrained | R@5=0.5212 NDCG=0.5043 | R@5=0.5392 NDCG=0.5225 |
+  | IndoSBERT fine-tuned | R@5=0.5860 NDCG=0.5781 | R@5=0.6000 NDCG=0.6149 |
+  | Pre-hybrid (BM25+pretrained) | R@5=0.6002 NDCG=0.5632 | R@5=0.6453 NDCG=0.6355 |
+  | **Fine-hybrid (BM25+FT)** | R@5=0.6149 NDCG=0.5879 | **R@5=0.6959 NDCG=0.6512** |
 
-- [ ] Uji Wilcoxon signed-rank: pretrained vs FT, pre-hybrid vs fine-hybrid
-- [ ] Simpan tabel lengkap ke `results/ablation.json`
+- [x] Uji Wilcoxon signed-rank (NDCG@10):
+  - pretrained vs FT [tanpa norm]: W=636.5, **p=0.0171** (signifikan)
+  - pretrained vs FT [dengan norm]: W=522.0, **p=0.0014** (sangat signifikan)
+  - pre_hybrid vs fine_hybrid [tanpa norm]: W=504.5, p=0.0618 (tidak signifikan)
+  - pre_hybrid vs fine_hybrid [dengan norm]: W=589.5, p=0.2646 (tidak signifikan)
+  - efek normalisasi BM25: W=51.0, **p=0.0027** (sangat signifikan)
+  - efek normalisasi fine_hybrid: W=98.5, **p=0.0297** (signifikan)
+- [x] Simpan ke `results/ablation.json` & `results/ablation_perquery.json`
+
+### Insight Kunci Fase 4 (untuk skripsi)
+
+1. **Fine-tuning MNRL terbukti signifikan** pada SBERT sendirian (p=0.017 tanpa norm, p=0.001 dengan norm) — jauh lebih baik dari paper acuan (+0.46%, tidak diuji signifikansi).
+2. **Namun fine-tuning tidak signifikan pada level hybrid** (p=0.06/0.26). RRF meredam gain SBERT karena BM25 sudah kuat. Ini insight jujur yang tidak ada di paper.
+3. **Normalisasi tetap lever terbesar** untuk BM25 (+8.3%, p=0.003) dan hybrid (+6.3%, p=0.030).
+4. **Sistem terbaik = Fine-hybrid + Normalisasi**: NDCG@10=0.6512 vs baseline 0.5632 → **+15.7% total**.
+5. Kontribusi komponen terpisah (untuk bab metodologi/analisis):
+   - Fine-tuning saja (tanpa norm): +7.4% NDCG atas pretrained
+   - Normalisasi saja (tanpa FT): +7.2% NDCG atas pre-hybrid tanpa norm
+   - Keduanya bersama: +15.7% atas baseline
 
 ---
 
