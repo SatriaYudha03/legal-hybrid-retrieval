@@ -10,11 +10,10 @@ paths:
   eval_dir: "data/eval"           # queries.json & qrels
   results_dir: "results"          # output metrik & ranking
   models_dir: "models"            # cache lokal model IndoSBERT (anti-gagal saat demo offline)
+  train_dir: "data/train"         # data latih sintetis untuk fine-tuning (Fase 2)
 
 # Pemetaan nama file PDF -> domain. Sesuaikan nama file Anda di data/raw/.
 documents:
-  - file: "UU Ketenagakerjaan.pdf"
-    domain: "ketenagakerjaan"
   - file: "UU Perlindungan Konsumen.pdf"
     domain: "konsumen"
   - file: "UU Informasi dan Transaksi Elektronik.pdf"
@@ -53,5 +52,21 @@ retrieval:
 
 evaluation:
   metrics: ["recall@5", "recall@10", "mrr", "ndcg@10"]
+
+normalization:
+  enabled: false            # set true untuk aktifkan di pipeline interaktif
+  dict_path: "data/normalization/legal_terms.json"
+
+training:
+  output_dir: "models/indosbert-legal-ft"  # tujuan model fine-tuned
+  ft_index_name: "faiss_ft"   # nama index FAISS hasil model FT (disimpan terpisah dari "faiss" pretrained)
+  pairs_file: "pairs.jsonl"   # data latih di dalam train_dir
+  epochs: 1                   # 1-3; CPU lambat, mulai dari 1. Naikkan bila perlu.
+  batch_size: 16              # banyak negatif in-batch; sesuaikan dengan memori
+  learning_rate: 2.0e-5
+  warmup_ratio: 0.1
+  weight_decay: 0.01
+  max_seq_length: 256         # batasi panjang -> hemat kompute CPU & selaras chunking
+  num_hard_negatives: 4       # hard negative per pasangan (tersedia 4 di pairs.jsonl)
 
 seed: 42

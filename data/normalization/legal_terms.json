@@ -1,0 +1,96 @@
+{
+  "_comment": "Kamus normalisasi query: akronim dan sinonim bahasa awam → terminologi formal UU",
+
+  "abbreviations": {
+    "BPSK":  "Badan Penyelesaian Sengketa Konsumen",
+    "YLKI":  "Yayasan Lembaga Konsumen Indonesia",
+    "LPKSM": "Lembaga Perlindungan Konsumen Swadaya Masyarakat",
+    "KPAI":  "Komisi Perlindungan Anak Indonesia",
+    "ITE":   "Informasi dan Transaksi Elektronik",
+    "HAM":   "Hak Asasi Manusia",
+    "SARA":  "suku agama ras antargolongan",
+    "UU":    "Undang-Undang"
+  },
+
+  "global": {
+    "hukuman":      ["pidana", "sanksi"],
+    "dihukum":      ["dikenai sanksi pidana"],
+    "penjara":      ["pidana penjara"],
+    "denda":        ["pidana denda"],
+    "laporan polisi": ["pengaduan hukum"],
+    "pengadilan":   ["proses peradilan"],
+    "dilarang":     ["perbuatan yang dilarang"]
+  },
+
+  "synonyms": {
+    "konsumen": {
+      "penjual":               ["pelaku usaha"],
+      "pembeli":               ["konsumen"],
+      "toko online":           ["perdagangan elektronik", "transaksi elektronik"],
+      "belanja online":        ["transaksi elektronik"],
+      "barang rusak":          ["barang cacat", "produk cacat"],
+      "ditipu":                ["penipuan", "perbuatan yang dilarang pelaku usaha"],
+      "menipu":                ["penipuan pelaku usaha"],
+      "komplain":              ["pengaduan konsumen", "sengketa konsumen"],
+      "garansi":               ["jaminan", "tanggung jawab pelaku usaha"],
+      "kadaluarsa":            ["kedaluwarsa", "tidak layak konsumsi"],
+      "kedaluwarsa":           ["barang tidak layak konsumsi"],
+      "barang palsu":          ["barang tidak sesuai standar", "barang tiruan"],
+      "biaya tersembunyi":     ["klausula baku", "perjanjian tidak transparan"],
+      "nakal":                 ["melanggar hak konsumen", "perbuatan yang dilarang"],
+      "salah kirim":           ["barang tidak sesuai pesanan"],
+      "iklan palsu":           ["promosi yang menyesatkan", "iklan tidak benar"],
+      "uang tidak dikembalikan": ["ganti rugi", "pengembalian uang konsumen"],
+      "menolak komplain":      ["menolak pengaduan konsumen"],
+      "barang berbahaya":      ["keamanan dan keselamatan konsumen"]
+    },
+    "ite": {
+      "medsos":              ["media sosial", "sistem elektronik"],
+      "media sosial":        ["sistem elektronik", "media elektronik"],
+      "diretas":             ["akses tanpa hak", "akses tidak sah sistem elektronik"],
+      "di-hack":             ["akses tanpa hak", "akses ilegal sistem elektronik"],
+      "hack":                ["akses tanpa hak sistem elektronik"],
+      "hoax":                ["informasi tidak benar", "berita bohong"],
+      "berita bohong":       ["informasi yang tidak benar"],
+      "dihina":              ["pencemaran nama baik", "penghinaan melalui media elektronik"],
+      "dicemarkan":          ["pencemaran nama baik melalui sistem elektronik"],
+      "foto disebar":        ["penyebaran konten elektronik tanpa izin"],
+      "foto pribadi disebar": ["distribusi informasi elektronik tanpa hak"],
+      "penyadapan":          ["intersepsi komunikasi elektronik"],
+      "judi online":         ["perjudian melalui sistem elektronik"],
+      "diperas":             ["pemerasan melalui sistem elektronik"],
+      "diancam":             ["ancaman kekerasan melalui sistem elektronik"],
+      "data dicuri":         ["akses data tanpa hak", "pencurian data elektronik"],
+      "data pribadi dicuri": ["pengambilan data pribadi tanpa hak"],
+      "merusak data":        ["manipulasi data elektronik", "kerusakan sistem elektronik"],
+      "mengubah data":       ["manipulasi data sistem elektronik"],
+      "email":               ["surat elektronik", "dokumen elektronik"],
+      "konten":              ["informasi elektronik", "muatan elektronik"],
+      "kebencian":           ["permusuhan", "ujaran kebencian"],
+      "barang ilegal":       ["barang terlarang", "perdagangan barang ilegal"],
+      "transfer pembayaran online": ["transaksi elektronik pembayaran"]
+    },
+    "anak": {
+      "pelecehan seksual":     ["eksploitasi seksual anak", "perbuatan cabul terhadap anak"],
+      "kekerasan fisik":       ["kekerasan terhadap anak", "penganiayaan anak"],
+      "dipaksa bekerja":       ["eksploitasi ekonomi anak", "eksploitasi tenaga anak"],
+      "adopsi":                ["pengangkatan anak"],
+      "narkoba":               ["narkotika", "zat adiktif", "psikotropika"],
+      "perdagangan orang":     ["perdagangan anak", "eksploitasi anak"],
+      "ditelantarkan":         ["penelantaran anak", "anak terlantar"],
+      "diterlantarkan":        ["penelantaran anak"],
+      "disabilitas":           ["penyandang cacat", "anak berkebutuhan khusus"],
+      "bercerai":              ["perceraian orang tua", "putusnya perkawinan"],
+      "perwalian":             ["kuasa asuh anak"],
+      "akta kelahiran":        ["identitas anak", "dokumen identitas anak"],
+      "sekolah":               ["pendidikan", "lembaga pendidikan"],
+      "bersekolah":            ["pendidikan anak", "hak pendidikan"],
+      "bencana":               ["keadaan darurat", "situasi darurat bencana"],
+      "konflik":               ["situasi darurat konflik", "kondisi darurat"],
+      "dipukul":               ["kekerasan fisik terhadap anak"],
+      "narkotika":             ["zat adiktif narkotika psikotropika"],
+      "berhadapan dengan hukum": ["anak dalam proses peradilan"],
+      "proses hukum":          ["peradilan anak", "sistem peradilan anak"]
+    }
+  }
+}

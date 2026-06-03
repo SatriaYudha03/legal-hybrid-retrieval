@@ -1,105 +1,452 @@
 [
-  { "id": "Q001", "domain": "ketenagakerjaan", "type": "semantic", "text": "berapa pesangon kalau dipecat?" },
-  { "id": "Q002", "domain": "ketenagakerjaan", "type": "lexical",  "text": "uang pesangon pemutusan hubungan kerja" },
-  { "id": "Q003", "domain": "ketenagakerjaan", "type": "lexical",  "text": "waktu kerja dan waktu istirahat" },
-  { "id": "Q004", "domain": "ketenagakerjaan", "type": "semantic", "text": "berapa jam maksimal kerja dalam sehari?" },
-  { "id": "Q005", "domain": "ketenagakerjaan", "type": "semantic", "text": "apakah boleh dipecat saat sedang hamil?" },
-  { "id": "Q006", "domain": "ketenagakerjaan", "type": "lexical",  "text": "perjanjian kerja waktu tertentu" },
-  { "id": "Q007", "domain": "ketenagakerjaan", "type": "semantic", "text": "hak karyawan kontrak yang diberhentikan" },
-  { "id": "Q008", "domain": "ketenagakerjaan", "type": "lexical",  "text": "upah minimum pekerja" },
-  { "id": "Q009", "domain": "ketenagakerjaan", "type": "semantic", "text": "gaji tidak dibayar oleh perusahaan" },
-  { "id": "Q010", "domain": "ketenagakerjaan", "type": "lexical",  "text": "tenaga kerja asing" },
-  { "id": "Q011", "domain": "ketenagakerjaan", "type": "lexical",  "text": "keselamatan dan kesehatan kerja" },
-  { "id": "Q012", "domain": "ketenagakerjaan", "type": "lexical",  "text": "serikat pekerja serikat buruh" },
-  { "id": "Q013", "domain": "ketenagakerjaan", "type": "semantic", "text": "bolehkah buruh melakukan mogok kerja?" },
-  { "id": "Q014", "domain": "ketenagakerjaan", "type": "lexical",  "text": "cuti tahunan pekerja" },
-  { "id": "Q015", "domain": "ketenagakerjaan", "type": "semantic", "text": "cuti melahirkan berapa lama?" },
-  { "id": "Q016", "domain": "ketenagakerjaan", "type": "lexical",  "text": "waktu kerja lembur dan upah lembur" },
-  { "id": "Q017", "domain": "ketenagakerjaan", "type": "semantic", "text": "lembur tapi tidak dibayar" },
-  { "id": "Q018", "domain": "ketenagakerjaan", "type": "lexical",  "text": "pelatihan kerja dan pemagangan" },
-  { "id": "Q019", "domain": "ketenagakerjaan", "type": "semantic", "text": "anak di bawah umur dipekerjakan" },
-  { "id": "Q020", "domain": "ketenagakerjaan", "type": "lexical",  "text": "pekerja perempuan kerja malam hari" },
-  { "id": "Q021", "domain": "ketenagakerjaan", "type": "semantic", "text": "hak pekerja yang di-PHK secara sepihak" },
-  { "id": "Q022", "domain": "ketenagakerjaan", "type": "lexical",  "text": "perselisihan hubungan industrial" },
-  { "id": "Q023", "domain": "ketenagakerjaan", "type": "semantic", "text": "bolehkah perusahaan menahan ijazah karyawan?" },
-  { "id": "Q024", "domain": "ketenagakerjaan", "type": "lexical",  "text": "penempatan tenaga kerja" },
-  { "id": "Q025", "domain": "ketenagakerjaan", "type": "semantic", "text": "kompensasi pekerja yang mengundurkan diri" },
-
-  { "id": "Q026", "domain": "konsumen", "type": "lexical",  "text": "hak dan kewajiban konsumen" },
-  { "id": "Q027", "domain": "konsumen", "type": "semantic", "text": "barang yang dibeli ternyata rusak" },
-  { "id": "Q028", "domain": "konsumen", "type": "lexical",  "text": "tanggung jawab pelaku usaha atas kerugian" },
-  { "id": "Q029", "domain": "konsumen", "type": "semantic", "text": "ditipu saat belanja online" },
-  { "id": "Q030", "domain": "konsumen", "type": "lexical",  "text": "ganti rugi barang cacat" },
-  { "id": "Q031", "domain": "konsumen", "type": "semantic", "text": "produk tidak sesuai dengan yang diiklankan" },
-  { "id": "Q032", "domain": "konsumen", "type": "lexical",  "text": "klausula baku dalam perjanjian" },
-  { "id": "Q033", "domain": "konsumen", "type": "semantic", "text": "makanan kadaluarsa masih dijual di toko" },
-  { "id": "Q034", "domain": "konsumen", "type": "lexical",  "text": "Badan Penyelesaian Sengketa Konsumen" },
-  { "id": "Q035", "domain": "konsumen", "type": "semantic", "text": "cara menuntut penjual yang nakal" },
-  { "id": "Q036", "domain": "konsumen", "type": "lexical",  "text": "larangan bagi pelaku usaha" },
-  { "id": "Q037", "domain": "konsumen", "type": "semantic", "text": "uang tidak dikembalikan setelah barang cacat" },
-  { "id": "Q038", "domain": "konsumen", "type": "lexical",  "text": "iklan yang menyesatkan konsumen" },
-  { "id": "Q039", "domain": "konsumen", "type": "semantic", "text": "penjual menolak komplain pembeli" },
-  { "id": "Q040", "domain": "konsumen", "type": "lexical",  "text": "sanksi pidana pelaku usaha" },
-  { "id": "Q041", "domain": "konsumen", "type": "semantic", "text": "hak menukar barang yang salah kirim" },
-  { "id": "Q042", "domain": "konsumen", "type": "lexical",  "text": "perbuatan yang dilarang dalam menawarkan barang" },
-  { "id": "Q043", "domain": "konsumen", "type": "semantic", "text": "garansi barang elektronik tidak ditepati" },
-  { "id": "Q044", "domain": "konsumen", "type": "lexical",  "text": "penyelesaian sengketa konsumen di pengadilan" },
-  { "id": "Q045", "domain": "konsumen", "type": "semantic", "text": "membeli barang palsu atau tiruan" },
-  { "id": "Q046", "domain": "konsumen", "type": "lexical",  "text": "hak konsumen atas informasi barang" },
-  { "id": "Q047", "domain": "konsumen", "type": "semantic", "text": "barang berbahaya tidak ada peringatan" },
-  { "id": "Q048", "domain": "konsumen", "type": "lexical",  "text": "pembuktian tanggung jawab pelaku usaha" },
-  { "id": "Q049", "domain": "konsumen", "type": "semantic", "text": "dikenakan biaya tersembunyi saat membeli" },
-  { "id": "Q050", "domain": "konsumen", "type": "lexical",  "text": "gugatan ganti rugi konsumen" },
-
-  { "id": "Q051", "domain": "ite", "type": "lexical",  "text": "informasi elektronik dan dokumen elektronik" },
-  { "id": "Q052", "domain": "ite", "type": "semantic", "text": "dihina dan dicemarkan nama baik di media sosial" },
-  { "id": "Q053", "domain": "ite", "type": "lexical",  "text": "tanda tangan elektronik yang sah" },
-  { "id": "Q054", "domain": "ite", "type": "semantic", "text": "akun media sosial diretas orang lain" },
-  { "id": "Q055", "domain": "ite", "type": "lexical",  "text": "alat bukti elektronik di pengadilan" },
-  { "id": "Q056", "domain": "ite", "type": "semantic", "text": "ditipu lewat transfer pembayaran online" },
-  { "id": "Q057", "domain": "ite", "type": "lexical",  "text": "transaksi elektronik yang sah" },
-  { "id": "Q058", "domain": "ite", "type": "semantic", "text": "menyebarkan berita bohong atau hoax" },
-  { "id": "Q059", "domain": "ite", "type": "lexical",  "text": "akses ilegal ke sistem komputer" },
-  { "id": "Q060", "domain": "ite", "type": "semantic", "text": "foto pribadi disebar tanpa izin" },
-  { "id": "Q061", "domain": "ite", "type": "lexical",  "text": "konten melanggar kesusilaan" },
-  { "id": "Q062", "domain": "ite", "type": "semantic", "text": "judi online lewat aplikasi" },
-  { "id": "Q063", "domain": "ite", "type": "lexical",  "text": "penyelenggaraan sistem elektronik" },
-  { "id": "Q064", "domain": "ite", "type": "semantic", "text": "diancam dan diperas melalui pesan online" },
-  { "id": "Q065", "domain": "ite", "type": "lexical",  "text": "perbuatan yang dilarang dalam UU ITE" },
-  { "id": "Q066", "domain": "ite", "type": "semantic", "text": "data pribadi dicuri dari sistem" },
-  { "id": "Q067", "domain": "ite", "type": "lexical",  "text": "intersepsi atau penyadapan komunikasi elektronik" },
-  { "id": "Q068", "domain": "ite", "type": "semantic", "text": "email sebagai bukti perjanjian yang sah" },
-  { "id": "Q069", "domain": "ite", "type": "lexical",  "text": "sanksi pidana penyebaran informasi elektronik" },
-  { "id": "Q070", "domain": "ite", "type": "semantic", "text": "merusak atau mengubah data komputer orang lain" },
-  { "id": "Q071", "domain": "ite", "type": "lexical",  "text": "nama domain dan kekayaan intelektual" },
-  { "id": "Q072", "domain": "ite", "type": "semantic", "text": "menyebarkan kebencian berdasarkan SARA online" },
-  { "id": "Q073", "domain": "ite", "type": "lexical",  "text": "perlindungan data dalam sistem elektronik" },
-  { "id": "Q074", "domain": "ite", "type": "semantic", "text": "menjual barang ilegal lewat internet" },
-  { "id": "Q075", "domain": "ite", "type": "lexical",  "text": "kekuatan hukum dokumen elektronik" },
-
-  { "id": "Q076", "domain": "anak", "type": "lexical",  "text": "hak anak atas pendidikan dan pengajaran" },
-  { "id": "Q077", "domain": "anak", "type": "semantic", "text": "anak menjadi korban kekerasan fisik" },
-  { "id": "Q078", "domain": "anak", "type": "lexical",  "text": "kewajiban dan tanggung jawab orang tua" },
-  { "id": "Q079", "domain": "anak", "type": "semantic", "text": "anak dipaksa bekerja oleh orang tua" },
-  { "id": "Q080", "domain": "anak", "type": "lexical",  "text": "perlindungan khusus bagi anak" },
-  { "id": "Q081", "domain": "anak", "type": "semantic", "text": "anak korban pelecehan seksual" },
-  { "id": "Q082", "domain": "anak", "type": "lexical",  "text": "eksploitasi ekonomi dan seksual anak" },
-  { "id": "Q083", "domain": "anak", "type": "semantic", "text": "anak tidak diberi kesempatan bersekolah" },
-  { "id": "Q084", "domain": "anak", "type": "lexical",  "text": "pengangkatan anak atau adopsi" },
-  { "id": "Q085", "domain": "anak", "type": "semantic", "text": "siapa yang wajib melindungi anak?" },
-  { "id": "Q086", "domain": "anak", "type": "lexical",  "text": "hak anak penyandang disabilitas" },
-  { "id": "Q087", "domain": "anak", "type": "semantic", "text": "anak ditelantarkan oleh orang tuanya" },
-  { "id": "Q088", "domain": "anak", "type": "lexical",  "text": "hak anak atas kesehatan" },
-  { "id": "Q089", "domain": "anak", "type": "semantic", "text": "anak berhadapan dengan proses hukum" },
-  { "id": "Q090", "domain": "anak", "type": "lexical",  "text": "larangan kekerasan terhadap anak" },
-  { "id": "Q091", "domain": "anak", "type": "semantic", "text": "perlindungan anak dari narkoba" },
-  { "id": "Q092", "domain": "anak", "type": "lexical",  "text": "hak anak untuk beristirahat dan bermain" },
-  { "id": "Q093", "domain": "anak", "type": "semantic", "text": "hak anak ketika orang tuanya bercerai" },
-  { "id": "Q094", "domain": "anak", "type": "lexical",  "text": "kewajiban negara dan pemerintah melindungi anak" },
-  { "id": "Q095", "domain": "anak", "type": "semantic", "text": "anak dijadikan korban perdagangan orang" },
-  { "id": "Q096", "domain": "anak", "type": "lexical",  "text": "identitas dan akta kelahiran anak" },
-  { "id": "Q097", "domain": "anak", "type": "semantic", "text": "anak dilibatkan dalam kegiatan politik" },
-  { "id": "Q098", "domain": "anak", "type": "lexical",  "text": "kuasa asuh dan perwalian anak" },
-  { "id": "Q099", "domain": "anak", "type": "semantic", "text": "perlindungan anak dalam situasi bencana atau konflik" },
-  { "id": "Q100", "domain": "anak", "type": "lexical",  "text": "sanksi pidana kekerasan terhadap anak" }
+  {
+    "id": "Q026",
+    "domain": "konsumen",
+    "type": "lexical",
+    "text": "hak dan kewajiban konsumen"
+  },
+  {
+    "id": "Q027",
+    "domain": "konsumen",
+    "type": "semantic",
+    "text": "barang yang dibeli ternyata rusak"
+  },
+  {
+    "id": "Q028",
+    "domain": "konsumen",
+    "type": "lexical",
+    "text": "tanggung jawab pelaku usaha atas kerugian"
+  },
+  {
+    "id": "Q029",
+    "domain": "konsumen",
+    "type": "semantic",
+    "text": "ditipu saat belanja online"
+  },
+  {
+    "id": "Q030",
+    "domain": "konsumen",
+    "type": "lexical",
+    "text": "ganti rugi barang cacat"
+  },
+  {
+    "id": "Q031",
+    "domain": "konsumen",
+    "type": "semantic",
+    "text": "produk tidak sesuai dengan yang diiklankan"
+  },
+  {
+    "id": "Q032",
+    "domain": "konsumen",
+    "type": "lexical",
+    "text": "klausula baku dalam perjanjian"
+  },
+  {
+    "id": "Q033",
+    "domain": "konsumen",
+    "type": "semantic",
+    "text": "makanan kadaluarsa masih dijual di toko"
+  },
+  {
+    "id": "Q034",
+    "domain": "konsumen",
+    "type": "lexical",
+    "text": "Badan Penyelesaian Sengketa Konsumen"
+  },
+  {
+    "id": "Q035",
+    "domain": "konsumen",
+    "type": "semantic",
+    "text": "cara menuntut penjual yang nakal"
+  },
+  {
+    "id": "Q036",
+    "domain": "konsumen",
+    "type": "lexical",
+    "text": "larangan bagi pelaku usaha"
+  },
+  {
+    "id": "Q037",
+    "domain": "konsumen",
+    "type": "semantic",
+    "text": "uang tidak dikembalikan setelah barang cacat"
+  },
+  {
+    "id": "Q038",
+    "domain": "konsumen",
+    "type": "lexical",
+    "text": "iklan yang menyesatkan konsumen"
+  },
+  {
+    "id": "Q039",
+    "domain": "konsumen",
+    "type": "semantic",
+    "text": "penjual menolak komplain pembeli"
+  },
+  {
+    "id": "Q040",
+    "domain": "konsumen",
+    "type": "lexical",
+    "text": "sanksi pidana pelaku usaha"
+  },
+  {
+    "id": "Q041",
+    "domain": "konsumen",
+    "type": "semantic",
+    "text": "hak menukar barang yang salah kirim"
+  },
+  {
+    "id": "Q042",
+    "domain": "konsumen",
+    "type": "lexical",
+    "text": "perbuatan yang dilarang dalam menawarkan barang"
+  },
+  {
+    "id": "Q043",
+    "domain": "konsumen",
+    "type": "semantic",
+    "text": "garansi barang elektronik tidak ditepati"
+  },
+  {
+    "id": "Q044",
+    "domain": "konsumen",
+    "type": "lexical",
+    "text": "penyelesaian sengketa konsumen di pengadilan"
+  },
+  {
+    "id": "Q045",
+    "domain": "konsumen",
+    "type": "semantic",
+    "text": "membeli barang palsu atau tiruan"
+  },
+  {
+    "id": "Q046",
+    "domain": "konsumen",
+    "type": "lexical",
+    "text": "hak konsumen atas informasi barang"
+  },
+  {
+    "id": "Q047",
+    "domain": "konsumen",
+    "type": "semantic",
+    "text": "barang berbahaya tidak ada peringatan"
+  },
+  {
+    "id": "Q048",
+    "domain": "konsumen",
+    "type": "lexical",
+    "text": "pembuktian tanggung jawab pelaku usaha"
+  },
+  {
+    "id": "Q049",
+    "domain": "konsumen",
+    "type": "semantic",
+    "text": "dikenakan biaya tersembunyi saat membeli"
+  },
+  {
+    "id": "Q050",
+    "domain": "konsumen",
+    "type": "lexical",
+    "text": "gugatan ganti rugi konsumen"
+  },
+  {
+    "id": "Q051",
+    "domain": "ite",
+    "type": "lexical",
+    "text": "informasi elektronik dan dokumen elektronik"
+  },
+  {
+    "id": "Q052",
+    "domain": "ite",
+    "type": "semantic",
+    "text": "dihina dan dicemarkan nama baik di media sosial"
+  },
+  {
+    "id": "Q053",
+    "domain": "ite",
+    "type": "lexical",
+    "text": "tanda tangan elektronik yang sah"
+  },
+  {
+    "id": "Q054",
+    "domain": "ite",
+    "type": "semantic",
+    "text": "akun media sosial diretas orang lain"
+  },
+  {
+    "id": "Q055",
+    "domain": "ite",
+    "type": "lexical",
+    "text": "alat bukti elektronik di pengadilan"
+  },
+  {
+    "id": "Q056",
+    "domain": "ite",
+    "type": "semantic",
+    "text": "ditipu lewat transfer pembayaran online"
+  },
+  {
+    "id": "Q057",
+    "domain": "ite",
+    "type": "lexical",
+    "text": "transaksi elektronik yang sah"
+  },
+  {
+    "id": "Q058",
+    "domain": "ite",
+    "type": "semantic",
+    "text": "menyebarkan berita bohong atau hoax"
+  },
+  {
+    "id": "Q059",
+    "domain": "ite",
+    "type": "lexical",
+    "text": "akses ilegal ke sistem komputer"
+  },
+  {
+    "id": "Q060",
+    "domain": "ite",
+    "type": "semantic",
+    "text": "foto pribadi disebar tanpa izin"
+  },
+  {
+    "id": "Q061",
+    "domain": "ite",
+    "type": "lexical",
+    "text": "konten melanggar kesusilaan"
+  },
+  {
+    "id": "Q062",
+    "domain": "ite",
+    "type": "semantic",
+    "text": "judi online lewat aplikasi"
+  },
+  {
+    "id": "Q063",
+    "domain": "ite",
+    "type": "lexical",
+    "text": "penyelenggaraan sistem elektronik"
+  },
+  {
+    "id": "Q064",
+    "domain": "ite",
+    "type": "semantic",
+    "text": "diancam dan diperas melalui pesan online"
+  },
+  {
+    "id": "Q065",
+    "domain": "ite",
+    "type": "lexical",
+    "text": "perbuatan yang dilarang dalam UU ITE"
+  },
+  {
+    "id": "Q066",
+    "domain": "ite",
+    "type": "semantic",
+    "text": "data pribadi dicuri dari sistem"
+  },
+  {
+    "id": "Q067",
+    "domain": "ite",
+    "type": "lexical",
+    "text": "intersepsi atau penyadapan komunikasi elektronik"
+  },
+  {
+    "id": "Q068",
+    "domain": "ite",
+    "type": "semantic",
+    "text": "email sebagai bukti perjanjian yang sah"
+  },
+  {
+    "id": "Q069",
+    "domain": "ite",
+    "type": "lexical",
+    "text": "sanksi pidana penyebaran informasi elektronik"
+  },
+  {
+    "id": "Q070",
+    "domain": "ite",
+    "type": "semantic",
+    "text": "merusak atau mengubah data komputer orang lain"
+  },
+  {
+    "id": "Q071",
+    "domain": "ite",
+    "type": "lexical",
+    "text": "nama domain dan kekayaan intelektual"
+  },
+  {
+    "id": "Q072",
+    "domain": "ite",
+    "type": "semantic",
+    "text": "menyebarkan kebencian berdasarkan SARA online"
+  },
+  {
+    "id": "Q073",
+    "domain": "ite",
+    "type": "lexical",
+    "text": "perlindungan data dalam sistem elektronik"
+  },
+  {
+    "id": "Q074",
+    "domain": "ite",
+    "type": "semantic",
+    "text": "menjual barang ilegal lewat internet"
+  },
+  {
+    "id": "Q075",
+    "domain": "ite",
+    "type": "lexical",
+    "text": "kekuatan hukum dokumen elektronik"
+  },
+  {
+    "id": "Q076",
+    "domain": "anak",
+    "type": "lexical",
+    "text": "hak anak atas pendidikan dan pengajaran"
+  },
+  {
+    "id": "Q077",
+    "domain": "anak",
+    "type": "semantic",
+    "text": "anak menjadi korban kekerasan fisik"
+  },
+  {
+    "id": "Q078",
+    "domain": "anak",
+    "type": "lexical",
+    "text": "kewajiban dan tanggung jawab orang tua"
+  },
+  {
+    "id": "Q079",
+    "domain": "anak",
+    "type": "semantic",
+    "text": "anak dipaksa bekerja oleh orang tua"
+  },
+  {
+    "id": "Q080",
+    "domain": "anak",
+    "type": "lexical",
+    "text": "perlindungan khusus bagi anak"
+  },
+  {
+    "id": "Q081",
+    "domain": "anak",
+    "type": "semantic",
+    "text": "anak korban pelecehan seksual"
+  },
+  {
+    "id": "Q082",
+    "domain": "anak",
+    "type": "lexical",
+    "text": "eksploitasi ekonomi dan seksual anak"
+  },
+  {
+    "id": "Q083",
+    "domain": "anak",
+    "type": "semantic",
+    "text": "anak tidak diberi kesempatan bersekolah"
+  },
+  {
+    "id": "Q084",
+    "domain": "anak",
+    "type": "lexical",
+    "text": "pengangkatan anak atau adopsi"
+  },
+  {
+    "id": "Q085",
+    "domain": "anak",
+    "type": "semantic",
+    "text": "siapa yang wajib melindungi anak?"
+  },
+  {
+    "id": "Q086",
+    "domain": "anak",
+    "type": "lexical",
+    "text": "hak anak penyandang disabilitas"
+  },
+  {
+    "id": "Q087",
+    "domain": "anak",
+    "type": "semantic",
+    "text": "anak ditelantarkan oleh orang tuanya"
+  },
+  {
+    "id": "Q088",
+    "domain": "anak",
+    "type": "lexical",
+    "text": "hak anak atas kesehatan"
+  },
+  {
+    "id": "Q089",
+    "domain": "anak",
+    "type": "semantic",
+    "text": "anak berhadapan dengan proses hukum"
+  },
+  {
+    "id": "Q090",
+    "domain": "anak",
+    "type": "lexical",
+    "text": "larangan kekerasan terhadap anak"
+  },
+  {
+    "id": "Q091",
+    "domain": "anak",
+    "type": "semantic",
+    "text": "perlindungan anak dari narkoba"
+  },
+  {
+    "id": "Q092",
+    "domain": "anak",
+    "type": "lexical",
+    "text": "hak anak untuk beristirahat dan bermain"
+  },
+  {
+    "id": "Q093",
+    "domain": "anak",
+    "type": "semantic",
+    "text": "hak anak ketika orang tuanya bercerai"
+  },
+  {
+    "id": "Q094",
+    "domain": "anak",
+    "type": "lexical",
+    "text": "kewajiban negara dan pemerintah melindungi anak"
+  },
+  {
+    "id": "Q095",
+    "domain": "anak",
+    "type": "semantic",
+    "text": "anak dijadikan korban perdagangan orang"
+  },
+  {
+    "id": "Q096",
+    "domain": "anak",
+    "type": "lexical",
+    "text": "identitas dan akta kelahiran anak"
+  },
+  {
+    "id": "Q097",
+    "domain": "anak",
+    "type": "semantic",
+    "text": "anak dilibatkan dalam kegiatan politik"
+  },
+  {
+    "id": "Q098",
+    "domain": "anak",
+    "type": "lexical",
+    "text": "kuasa asuh dan perwalian anak"
+  },
+  {
+    "id": "Q099",
+    "domain": "anak",
+    "type": "semantic",
+    "text": "perlindungan anak dalam situasi bencana atau konflik"
+  },
+  {
+    "id": "Q100",
+    "domain": "anak",
+    "type": "lexical",
+    "text": "sanksi pidana kekerasan terhadap anak"
+  }
 ]
