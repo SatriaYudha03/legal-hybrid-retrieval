@@ -4,9 +4,37 @@ Dokumen ini merangkum rencana menambahkan **fine-tuning model semantik (IndoSBER
 ke pipeline `BM25 + IndoSBERT + RRF` yang sudah ada, beserta perbandingan dengan
 penelitian acuan dan keputusan desain yang melandasinya.
 
+> **Status: SELESAI (Fase 0–5).** Dokumen ini menyimpan *rencana & rasional* desain;
+> progres eksekusi dan angka final ada di [`docs/PROGRESS.md`](PROGRESS.md).
+
 ---
 
-## 1. Status Saat Ini
+## 0. Status Akhir & Hasil Aktual
+
+Eksekusi final memakai **378 chunk pasal dari 3 UU** (Perlindungan Konsumen, ITE,
+Perlindungan Anak — UU Ketenagakerjaan dikeluarkan pada Fase 0) dan **74 query
+berlabel** sebagai test set suci.
+
+| Hasil kunci (NDCG@10) | Nilai |
+|---|---|
+| Baseline (Pre-hybrid, tanpa norm) | 0.5632 |
+| **Sistem terbaik (Fine-hybrid + Normalisasi)** | **0.6512 (+15.6%)** |
+| Fine-tuning MNRL pada SBERT (signifikansi) | p=0.017 tanpa norm, **p=0.001** dengan norm |
+| Efek normalisasi (BM25 / fine-hybrid) | p=0.003 / p=0.030 |
+
+**Tiga temuan untuk skripsi:**
+1. **Fine-tuning MNRL kita signifikan** pada SBERT sendirian — mengungguli `CosineSimilarityLoss`
+   paper acuan (+0.46%, tanpa uji). Bentuk data sintetis (pertanyaan, bukan ringkasan) + loss
+   kontrastif terbukti menentukan.
+2. **Pada level hybrid, fine-tuning tidak lagi signifikan** (p=0.06/0.26): RRF meredam gain SBERT
+   karena BM25 sudah kuat — *insight jujur yang tak ada di paper*.
+3. **Query normalization tetap lever terbesar** dan komplementer dengan fine-tuning.
+
+Detail per-metrik & per-fase: lihat `results/ablation.json` dan `notebooks/06_finetuning_evaluasi.ipynb`.
+
+---
+
+## 1. Status Saat Ini (saat dokumen ini ditulis, pra-eksekusi)
 
 - Pipeline memakai IndoSBERT (`firqaaa/indo-sentence-bert-base`, 768-dim) **murni
   sebagai inference** — tidak ada training. Lihat `src/semantic_retriever.py`.
@@ -126,25 +154,28 @@ RRF) di domain hukum pajak Indonesia (UU KUP). Ringkasan metode mereka:
 - **Uji Wilcoxon signed-rank** antar pasangan kunci (pretrained vs FT; pre-hybrid vs
   fine-hybrid) memakai vektor per-query dari Fase 0.
 
-### Fase 5 — Integrasi & Presentasi
-- `config.yaml`: tambah bagian `normalization` (on/off) & `training`.
-- Notebook baru `notebooks/06_finetuning_evaluasi.ipynb` untuk slide.
+### Fase 5 — Integrasi & Presentasi ✅
+- ✅ `config.yaml`: bagian `normalization` (on/off) & `training` ditambahkan.
+- ✅ Notebook `notebooks/06_finetuning_evaluasi.ipynb`: tabel ablasi + grafik NDCG@10 +
+  grafik kontribusi komponen + boxplot per-query + tabel Wilcoxon + insight. Semua angka
+  dibaca otomatis dari `results/ablation.json` agar sinkron.
+- ✅ `docs/PROGRESS.md` & dokumen ini diperbarui dengan hasil aktual.
 
 ---
 
 ## 6. Berkas yang Akan Dibuat / Diubah
 
-**Baru:**
-- `src/normalize.py`
-- `data/normalization/legal_terms.json`
-- `scripts/07_build_synthetic_queries.py`
-- `scripts/08_finetune_sbert.py`
-- `scripts/09_evaluate_ablation.py`
-- `notebooks/06_finetuning_evaluasi.ipynb`
+**Baru:** (semua ✅ selesai)
+- ✅ `src/normalize.py`
+- ✅ `data/normalization/legal_terms.json`
+- ✅ `scripts/07_build_synthetic_queries.py`
+- ✅ `scripts/08_finetune_sbert.py` (+ `scripts/08b_rebuild_index_ft.py`, `notebooks/06_finetune_colab.ipynb`)
+- ✅ `scripts/09_evaluate_ablation.py`
+- ✅ `notebooks/06_finetuning_evaluasi.ipynb`
 
-**Diubah:**
-- `src/evaluate.py` (metrik per-query + Wilcoxon)
-- `config.yaml` (bagian `normalization` & `training`)
+**Diubah:** (semua ✅ selesai)
+- ✅ `src/evaluate.py` (metrik per-query + Wilcoxon)
+- ✅ `config.yaml` (bagian `normalization` & `training`)
 
 ---
 

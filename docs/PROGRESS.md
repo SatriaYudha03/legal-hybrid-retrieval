@@ -1,6 +1,6 @@
 # Progress Fine-Tuning IndoSBERT
 
-Terakhir diperbarui: 2026-06-03
+Terakhir diperbarui: 2026-06-04
 
 ---
 
@@ -12,7 +12,7 @@ Fase 1  [✅ SELESAI] Query Normalization
 Fase 2  [✅ SELESAI] Data Latih Sintetis
 Fase 3  [✅ SELESAI] Fine-Tuning MNRL (Google Colab GPU, 3 epoch)
 Fase 4  [✅ SELESAI] Evaluasi Ablasi + Wilcoxon
-Fase 5  [⬜ BELUM  ] Integrasi & Presentasi
+Fase 5  [✅ SELESAI] Integrasi & Presentasi
 ```
 
 ---
@@ -178,13 +178,30 @@ Model disimpan ke `models/indosbert-legal-ft/` dan index FT ke `data/index/faiss
 
 ---
 
-## Fase 5 — Integrasi & Presentasi ⬜
+## Fase 5 — Integrasi & Presentasi ✅
 
 **Tujuan:** rapikan pipeline & siapkan materi skripsi/presentasi.
 
-- [ ] Update `config.yaml`: tambah bagian `normalization` (on/off) & `training`
-- [ ] Buat `notebooks/06_finetuning_evaluasi.ipynb` — tabel ablasi + grafik + Wilcoxon
-- [ ] Update `docs/RENCANA_FINETUNING.md` dengan hasil aktual
+- [x] Update `config.yaml`: tambah bagian `normalization` (on/off) & `training`
+- [x] Buat `notebooks/06_finetuning_evaluasi.ipynb` — tabel ablasi + grafik + Wilcoxon
+- [x] Update `docs/RENCANA_FINETUNING.md` dengan hasil aktual
+
+### Isi `notebooks/06_finetuning_evaluasi.ipynb`
+
+Notebook presentasi (Jupyter lokal) — semua angka dibaca otomatis dari
+`results/ablation.json` & `results/ablation_perquery.json` agar selalu sinkron:
+
+1. **Tabel ablasi lengkap** — 5 sistem × 2 kondisi normalisasi (MultiIndex DataFrame).
+2. **Grafik NDCG@10 berpasangan** — efek normalisasi per sistem (bar tanpa vs dengan).
+3. **Grafik kontribusi komponen** — progresi baseline → +fine-tuning → +normalisasi → keduanya.
+4. **Boxplot distribusi NDCG@10 per query** — sebaran 74 query, bukan sekadar rata-rata.
+5. **Tabel Wilcoxon** — 6 perbandingan dengan kolom signifikansi (p<0.05).
+6. **Ringkasan sistem terbaik** — Fine-hybrid+Norm vs baseline (semua metrik dihitung live).
+7. **Insight kunci** — narasi siap-pakai untuk bab Analisis skripsi.
+
+**Catatan:** notebook disimpan tanpa output pre-render (konsisten dgn notebook lain di
+repo); jalankan di Jupyter lokal untuk merender tabel & grafik. Logika tiap sel sudah
+diverifikasi bebas-error (matplotlib 3.9, pandas 2.2, scipy 1.14).
 
 ---
 
@@ -205,9 +222,14 @@ Model disimpan ke `models/indosbert-legal-ft/` dan index FT ke `data/index/faiss
 | ✅ | `results/normalization_perquery.json` | Hasil Fase 1 per-query |
 | ✅ | `scripts/07_build_synthetic_queries.py` | Pembuat data latih (template) |
 | ✅ | `data/train/pairs.jsonl` | 521 pasangan latih sintetis |
-| ⬜ | `scripts/08_finetune_sbert.py` | Fine-tuning IndoSBERT |
-| ⬜ | `scripts/09_evaluate_ablation.py` | Evaluasi ablasi lengkap |
-| ⬜ | `notebooks/06_finetuning_evaluasi.ipynb` | Notebook presentasi |
+| ✅ | `scripts/08_finetune_sbert.py` | Fine-tuning IndoSBERT (fallback CPU lokal) |
+| ✅ | `scripts/08b_rebuild_index_ft.py` | Rebuild FAISS index dari model FT |
+| ✅ | `notebooks/06_finetune_colab.ipynb` | Notebook fine-tuning Google Colab (GPU) |
+| ✅ | `scripts/09_evaluate_ablation.py` | Evaluasi ablasi lengkap + Wilcoxon |
+| ✅ | `results/ablation.json` | Hasil ablasi rata-rata 10 kombinasi |
+| ✅ | `results/ablation_perquery.json` | Hasil ablasi per-query |
+| ✅ | `config.yaml` | Tambah bagian `normalization` & `training` |
+| ✅ | `notebooks/06_finetuning_evaluasi.ipynb` | Notebook presentasi Fase 5 |
 
 ---
 
