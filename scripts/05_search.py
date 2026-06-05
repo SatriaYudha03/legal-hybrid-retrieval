@@ -1,13 +1,17 @@
 """Pencarian interaktif: ketik pertanyaan/pasal, dapatkan pasal yang relevan.
 
-Memakai pipeline yang sama dengan evaluasi: BM25 + IndoSBERT difusikan
-dengan Reciprocal Rank Fusion (RRF). Kandidat diambil sedalam
-``fusion.candidate_depth`` lalu dipotong ke top_k hanya di akhir.
+Default: Fine-Hybrid + Normalisasi (konfigurasi terbaik dari penelitian).
+  - Model: IndoSBERT fine-tuned (indosbert-legal-ft)
+  - Index FAISS: faiss_ft
+  - Fusion: Reciprocal Rank Fusion (k=60)
+  - Normalisasi query: aktif (ekspansi akronim + sinonim hukum)
 
 Jalankan:
-    python scripts/05_search.py                 # mode hybrid (default)
-    python scripts/05_search.py --method bm25    # hanya lexical
-    python scripts/05_search.py --method indosbert
+    python scripts/05_search.py                        # Fine-Hybrid + normalisasi (default)
+    python scripts/05_search.py --no-norm              # Fine-Hybrid tanpa normalisasi
+    python scripts/05_search.py --method bm25          # hanya lexical
+    python scripts/05_search.py --method indosbert     # hanya semantik (fine-tuned)
+    python scripts/05_search.py --model pretrained     # gunakan FAISS pretrained
     python scripts/05_search.py --top-k 5
     python scripts/05_search.py -q "hak cuti pekerja perempuan"   # sekali jalan, lalu keluar
 """
@@ -31,6 +35,7 @@ from src.config import load_config, resolve_path        # noqa: E402
 from src.bm25_retriever import BM25Retriever            # noqa: E402
 from src.semantic_retriever import SemanticRetriever    # noqa: E402
 from src.fusion import reciprocal_rank_fusion           # noqa: E402
+from src.normalize import normalize_query               # noqa: E402
 
 # Nama domain yang lebih ramah dibaca daripada slug internal.
 DOMAIN_LABEL = {
@@ -93,10 +98,21 @@ def search(
 
 def main() -> None:
     cfg = load_config()
-    parser = argparse.ArgumentParser(description="Pencarian pasal hukum (BM25 + IndoSBERT + RRF).")
+    parser = argparse.ArgumentParser(
+        description="Pencarian pasal hukum — Fine-Hybrid + Normalisasi (default terbaik).",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     parser.add_argument(
         "--method", choices=["hybrid", "bm25", "indosbert"], default="hybrid",
         help="Metode retrieval (default: hybrid).",
+    )
+    parser.add_argument(
+        "--model", choices=["finetuned", "pretrained"], default="finetuned",
+        help="Model IndoSBERT yang digunakan (default: finetuned).",
+    )
+    parser.add_argument(
+        "--no-norm", action="store_true",
+        help="Matikan normalisasi query (default: normalisasi aktif).",
     )
     parser.add_argument(
         "--top-k", type=int, default=cfg["retrieval"]["top_k"],
@@ -107,15 +123,25 @@ def main() -> None:
         help="Tampilkan teks pasal penuh (default: cuplikan).",
     )
     parser.add_argument(
+        "--reject-threshold", type=float, default=0.35, metavar="T",
+        help="Tolak query jika max cosine similarity < T (default: 0.35). "
+             "Set 0 untuk matikan filter.",
+    )
+    parser.add_argument(
         "-q", "--query", default=None,
         help="Langsung cari query ini lalu keluar (tanpa mode interaktif).",
     )
     args = parser.parse_args()
 
-    index_dir = resolve_path(cfg["paths"]["index_dir"])
-    processed = resolve_path(cfg["paths"]["processed_dir"])
-    depth = cfg["fusion"]["candidate_depth"]
-    rrf_k = cfg["fusion"]["k"]
+    use_norm      = not args.no_norm
+    threshold     = args.reject_threshold  # 0 = nonaktif
+    index_dir     = resolve_path(cfg["paths"]["index_dir"])
+    processed     = resolve_path(cfg["paths"]["processed_dir"])
+    depth         = cfg["fusion"]["candidate_depth"]
+    rrf_k         = cfg["fusion"]["k"]
+
+    # Pilih index FAISS sesuai model.
+    faiss_index = "faiss_ft" if args.model == "finetuned" else "faiss"
 
     # Muat index & metadata chunk.
     print("Memuat index & data pasal …")
@@ -123,17 +149,44 @@ def main() -> None:
     bm25 = BM25Retriever.load(index_dir / "bm25.pkl")
     sem: SemanticRetriever | None = None
     if args.method in ("hybrid", "indosbert"):
-        print("Memuat model IndoSBERT (sekali di awal, mohon tunggu) …")
-        sem = SemanticRetriever.load(index_dir / "faiss")
-        # paksa model termuat sekarang agar query pertama tidak terasa lambat
+        model_label = "fine-tuned" if args.model == "finetuned" else "pretrained"
+        print(f"Memuat model IndoSBERT {model_label} (sekali di awal, mohon tunggu) …")
+        sem = SemanticRetriever.load(index_dir / faiss_index)
         sem._load_model()
 
+    CAKUPAN = "UU ITE  |  UU Perlindungan Konsumen  |  UU Perlindungan Anak"
+
     def run_and_show(query: str) -> None:
-        hits = search(query, args.method, bm25, sem, depth, rrf_k, args.top_k)
+        # 1. Normalisasi query.
+        query_input = normalize_query(query) if use_norm else query
+        if use_norm and query_input != query:
+            print(f"  [normalisasi] {query!r}  ->  {query_input!r}")
+
+        # 2. Out-of-scope detection via max cosine similarity.
+        if threshold > 0 and sem is not None:
+            top1 = sem.search(query_input, top_k=1)
+            if top1:
+                max_sim = top1[0][1]
+                if max_sim < threshold:
+                    print(f"\n  [di luar cakupan]  skor relevansi tertinggi: {max_sim:.4f}  "
+                          f"(threshold: {threshold})")
+                    print(f"  Sistem ini hanya mencakup: {CAKUPAN}")
+                    print("  Coba ajukan pertanyaan seputar transaksi elektronik, "
+                          "perlindungan konsumen, atau hak anak.")
+                    return
+                # Tampilkan skor agar pengguna tahu seberapa relevan query-nya.
+                print(f"  [relevansi] max cosine similarity: {max_sim:.4f}  "
+                      f"(threshold: {threshold})  -> dalam cakupan")
+
+        # 3. Jalankan retrieval, tampilkan 3 hasil teratas.
+        hits = search(query_input, args.method, bm25, sem, depth, rrf_k, top_k=3)
         if not hits:
             print("  (tidak ada hasil)")
             return
-        print(f"\n=== {len(hits)} pasal paling relevan (metode: {args.method}) ===")
+        norm_label   = "+ normalisasi" if use_norm else "tanpa normalisasi"
+        model_lbl    = args.model
+        print(f"\n=== Top-3 pasal paling relevan  "
+              f"[{args.method} | {model_lbl} | {norm_label}] ===")
         for rank, (cid, score) in enumerate(hits, start=1):
             chunk = chunk_map.get(cid)
             if chunk is None:
@@ -146,11 +199,16 @@ def main() -> None:
         return
 
     # Mode interaktif.
-    print("\n" + "=" * 60)
-    print(" Pencarian Pasal Hukum  —  ketik pertanyaan lalu tekan Enter")
-    print(f" Metode: {args.method} | top-k: {args.top_k}")
-    print(" Ketik 'keluar', 'exit', atau Ctrl+C untuk berhenti.")
-    print("=" * 60)
+    norm_status = "AKTIF" if use_norm else "nonaktif"
+    model_label = "fine-tuned (terbaik)" if args.model == "finetuned" else "pretrained"
+    thr_status  = f"{threshold}" if threshold > 0 else "nonaktif"
+    print("\n" + "=" * 65)
+    print("  Pencarian Pasal Hukum Indonesia")
+    print(f"  Metode    : {args.method}  |  Model: {model_label}")
+    print(f"  Normalisasi: {norm_status}  |  Threshold reject: {thr_status}")
+    print(f"  Cakupan   : {CAKUPAN}")
+    print("  Ketik 'keluar' atau tekan Ctrl+C untuk berhenti.")
+    print("=" * 65)
     while True:
         try:
             query = input("\nTanya pasal > ").strip()
