@@ -1,4 +1,4 @@
-# Hybrid Retrieval Dokumen Hukum Indonesia: Integrasi BM25, Fine-Tuned IndoSBERT, dan Normalisasi Query dengan Reciprocal Rank Fusion
+# Hybrid Retrieval Dokumen Hukum Indonesia: Integrasi Fine-Tuned IndoSBERT, BM25, dan Normalisasi Query dengan Reciprocal Rank Fusion
 
 ## Ringkasan Proyek
 
@@ -16,11 +16,11 @@ Sebagai contoh:
 
 Query pengguna:
 
-> "berapa pesangon kalau dipecat?"
+> "kalau beli barang online ternyata rusak, bisa minta ganti rugi tidak?"
 
 Dokumen hukum:
 
-> "Pemutusan hubungan kerja dan hak pekerja atas uang pesangon..."
+> "Pelaku usaha bertanggung jawab memberikan ganti rugi atas kerusakan, pencemaran, dan/atau kerugian konsumen akibat mengkonsumsi barang dan/atau jasa yang dihasilkan atau diperdagangkan."
 
 Meskipun keduanya membahas topik yang sama, kata-kata yang digunakan berbeda sehingga metode berbasis kata kunci sering gagal menemukan dokumen yang relevan.
 
@@ -46,7 +46,7 @@ Karena itu, proyek ini menggabungkan BM25, fine-tuned IndoSBERT, dan normalisasi
 
 ## Dokumen yang Digunakan
 
-Pipeline aktif menggunakan **3 UU** (UU Ketenagakerjaan dikecualikan pada tahap baseline untuk menjaga integritas evaluasi):
+Pipeline menggunakan **3 UU** multi-domain:
 
 ### 1. UU Perlindungan Konsumen
 
@@ -112,7 +112,7 @@ Proses:
 
 Output: Ranking dokumen berdasarkan kemiripan makna.
 
-IndoSBERT dapat mencocokkan "dipecat" dengan "pemutusan hubungan kerja" meskipun kata-katanya berbeda.
+IndoSBERT dapat mencocokkan "barang rusak" dengan "ganti rugi atas kerusakan" meskipun kata-katanya berbeda.
 
 ---
 
@@ -123,9 +123,9 @@ Input: Query pengguna mentah
 Proses: Ekspansi query menggunakan kamus akronim dan sinonim per domain (`data/normalization/legal_terms.json`). Query asli tetap utuh — terminologi formal *ditambahkan* di belakang.
 
 Contoh:
-- `"PHK"` → `"PHK pemutusan hubungan kerja"`
-- `"medsos"` → `"medsos media sosial"`
 - `"BPSK"` → `"BPSK Badan Penyelesaian Sengketa Konsumen"`
+- `"medsos"` → `"medsos media sosial"`
+- `"UU ITE"` → `"UU ITE Undang-Undang Informasi dan Transaksi Elektronik"`
 
 Strategi ekspansi (bukan penggantian) menguntungkan BM25 (exact match tambahan) sekaligus SBERT (sinyal semantik diperkaya).
 
@@ -443,6 +443,7 @@ legal-hybrid-retrieval/
 │   ├── 02_chunk.py
 │   ├── 03_build_index.py
 │   ├── 04_evaluate.py
+│   ├── 05_search.py                    # pencarian interaktif (Fine-Hybrid + Normalisasi)
 │   ├── 05_evaluate_normalization.py
 │   ├── 07_build_synthetic_queries.py
 │   ├── 08_finetune_sbert.py
@@ -460,6 +461,17 @@ legal-hybrid-retrieval/
 ├── docs/
 │   ├── pipeline.md                 # diagram pipeline (Mermaid)
 │   └── penjelasan_transformer.md   # teori Transformer → studi kasus
+│
+├── images/
+│   ├── pipeline_diagram.png            # diagram arsitektur sistem
+│   ├── alur_penelitian.png             # diagram alur metodologi penelitian
+│   ├── summary_comparison.png          # perbandingan semua sistem
+│   ├── ablation_metrics.png            # bar chart ablasi 5×2
+│   ├── ablation_heatmap.png            # heatmap semua metrik
+│   ├── normalization_effect.png        # efek normalisasi per sistem
+│   ├── finetune_impact.png             # dampak fine-tuning
+│   ├── radar_comparison.png            # radar chart sistem terbaik
+│   └── wilcoxon_significance.png       # tabel uji Wilcoxon
 │
 └── results/
     ├── metrics.json
